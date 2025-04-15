@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import React, { useActionState, useState } from 'react'
+import UploadPage from '@/components/upload';
+import { Loader, Loader2 } from 'lucide-react';
 
 export default function Upload() {
     const [formState, action, isPending] = useActionState(uploadShortAction, { errors: {} })
@@ -50,22 +52,15 @@ export default function Upload() {
                 </div>
 
                 <div className='mb-4'>
-                    <Label>Upload video</Label>
-                    <Input
-                        type='file'
-                        name='video'
-                        className='mt-1'
-                        onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                                const file = e.target.files[0];
-                                setVideoUrl(URL.createObjectURL(file));
-                            }
-                        }}
-                    />
+                <UploadPage setVideoUrl={setVideoUrl}/>
                 </div>
-
+                {formState.errors.formError && (
+          <div className="border border-red-500 bg-red-100">
+            <p className="text-red-600">{formState.errors.formError}</p>
+          </div>
+        )}
                 <Button type='submit' className='w-full' disabled={isPending}>
-                    Upload
+                  {isPending?<Loader2  className='animate-spin h-4 w-4'/>:"Upload"}
                 </Button>
             </form>
         </div>
