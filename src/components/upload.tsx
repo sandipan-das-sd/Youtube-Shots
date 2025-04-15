@@ -78,6 +78,7 @@ export default function UploadPage({ setVideoUrl }: UploadProps) {
         onSuccess={onSuccess}
         onUploadProgress={onUploadProgress}
         onUploadStart={onUploadStart}
+        accept="video/*,image/*"
         className="mt-1 block w-full text-sm tex-gray-900 file:mr-4 file:px-4 file:py-2 file:rounded-md"
       />
 
