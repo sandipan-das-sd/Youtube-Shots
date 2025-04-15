@@ -4,6 +4,7 @@ import { Button } from '../button';
 import { Plus } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import { SignedOut, SignInButton, SignUpButton, SignedIn, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 function Navbar() {
     return (
@@ -24,10 +25,12 @@ function Navbar() {
             
             {/* Action Buttons */}
             <div className="flex items-center space-x-2">
+                <Link href="/upload">
                 <Button>
                     <Plus className="mr-2 h-4 w-4" />
                     Create
                 </Button>
+                </Link>
                 
                 <SignedOut>
                     <SignInButton>
