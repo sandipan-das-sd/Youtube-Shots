@@ -6,7 +6,9 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  // Changed the output path to match standard location
+  // Remove this line if you want to use the default location
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -14,24 +16,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id String @id @default(cuid())
-  clerkUserId String @unique
-  name String
-  email String
-  createdAt DateTime @default(now())
- updatedAt DateTime @updatedAt
-  shorts Shorts[]
+model User {
+  id          String   @id @default(cuid())
+  clerkUserId String   @unique
+  name        String
+  email       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  shorts      Shorts[]
 }
-model Shorts{
 
-id String @id @default(cuid())
-  title String
+model Shorts {
+  id          String   @id @default(cuid())
+  title       String
   description String
-  url String
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId String
-  user User @relation(fields: [userId], references: [id])
+  url         String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
 }

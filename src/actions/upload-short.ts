@@ -1,4 +1,5 @@
 "use server";
+
 import { prisma } from '@/lib/prisma';
 import { auth } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
@@ -10,27 +11,30 @@ const uploadShortsSchema = z.object({
     description: z.string().max(500),
     video: z.string()
 })
-type UploadShotsState = {
+
+type UploadShortsState = {
     errors: {
         title?: string[];
-        descripton?: string[];
+        description?: string[]; // Fixed the typo here (was 'descripton')
         video?: string[];
         formError?: string[]
     }
 }
-export const uploadShortAction = async (prevState: UploadShotsState, formData: FormData): Promise<UploadShotsState> => {
+
+export const uploadShortAction = async (prevState: UploadShortsState, formData: FormData): Promise<UploadShortsState> => {
     const result = uploadShortsSchema.safeParse({
         title: formData.get('title'),
         description: formData.get('description'),
         video: formData.get('video')
     });
+
     if (!result.success) {
         return {
             errors: result.error.flatten().fieldErrors
         }
     }
 
-    //clerk authenticationconss
+    // Clerk authentication
     const { userId } = await auth();
     if (!userId) {
         return {
@@ -54,11 +58,13 @@ export const uploadShortAction = async (prevState: UploadShotsState, formData: F
                 }
             }
         }
+        
+        // Changed 'video' to 'url' to match the schema
         await prisma.shorts.create({
             data: {
                 title: result.data.title,
                 description: result.data.description,
-                video: result.data.video,
+                url: result.data.video, // Changed from 'video' to 'url'
                 userId: user.id
             }
         })
@@ -77,8 +83,8 @@ export const uploadShortAction = async (prevState: UploadShotsState, formData: F
                 }
             }
         }
-
     }
+    
     revalidatePath("/")
     redirect("/")
 }

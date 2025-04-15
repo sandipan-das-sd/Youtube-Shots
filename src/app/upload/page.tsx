@@ -43,8 +43,8 @@ export default function Upload() {
                         className='mt-1'
                     />
                     {
-                        formState.errors.descripton && (
-                            <span className='text-red-500 text-sm'>{formState.errors.descripton}</span>
+                        formState.errors.description && (
+                            <span className='text-red-500 text-sm'>{formState.errors.description}</span>
                         )
                     }
                 </div>
