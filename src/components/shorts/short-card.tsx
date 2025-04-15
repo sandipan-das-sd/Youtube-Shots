@@ -1,12 +1,83 @@
+// "use client";
+// import type { Prisma } from "@prisma/client";
+// import React from "react";
+// import { Card, CardFooter } from "../ui/card";
+// import { IKVideo, ImageKitProvider } from "imagekitio-next";
+// import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+
+// const urlEndPoint = process.env.NEXT_PUBLIC_URL_ENDPOINT as string;
+// console.log("url end point -> ", urlEndPoint);
+
+// type ShortCardProps = {
+//   short: Prisma.ShortsGetPayload<{
+//     include: {
+//       user: {
+//         select: {
+//           name: true;
+//           email: true;
+//         };
+//       };
+//     };
+//   }>;
+// };
+
+// const ShortCard: React.FC<ShortCardProps> = ({ short }) => {
+//   console.log(short);
+
+//   return (
+//     <Card className="p-0 w-[360px] h-[640px] flex flex-col items-center justify-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative">
+//       <ImageKitProvider urlEndpoint={urlEndPoint}>
+//         <IKVideo
+//           path={short.url.replace(urlEndPoint, "")}
+//           transformation={[{ height: "640", width: "360", format: "mp4" }]}
+//           controls
+//           autoPlay={false}
+//           className="absolute inset-0 w-full h-full object-cover"
+//         />
+//       </ImageKitProvider>
+
+//       {/* Channel Information  */}
+//       <CardFooter className="absolute bottom-20 -left-2 text-white">
+//         <div>
+//           <div className="flex items-center space-x-2">
+//             <Avatar>
+//               <AvatarImage src="" alt="channel owner photo" />
+//               <AvatarFallback>CN</AvatarFallback>
+//             </Avatar>
+//             <div className="flex flex-col">
+//               <h3 className="font-semibold">{short.title}</h3>
+//               <span className="text-sm">{short.user.name}</span>
+//             </div>
+//           </div>
+
+//           <div className="text-sm mt-2">
+//             <p>{short.description}</p>
+//           </div>
+//         </div>
+//       </CardFooter>
+//     </Card>
+//   );
+// };
+
+// export default ShortCard;
+
+
 "use client";
 import type { Prisma } from "@prisma/client";
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardFooter } from "../ui/card";
 import { IKVideo, ImageKitProvider } from "imagekitio-next";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Share2 } from "lucide-react";
+import { Button } from "../ui/button";
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger 
+} from "../ui/tooltip";
 
 const urlEndPoint = process.env.NEXT_PUBLIC_URL_ENDPOINT as string;
-console.log("url end point -> ", urlEndPoint);
 
 type ShortCardProps = {
   short: Prisma.ShortsGetPayload<{
@@ -22,7 +93,41 @@ type ShortCardProps = {
 };
 
 const ShortCard: React.FC<ShortCardProps> = ({ short }) => {
-  console.log(short);
+  const [isCopied, setIsCopied] = useState(false);
+
+  // Function to handle sharing
+  const handleShare = async () => {
+    // Check if the Web Share API is available
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: short.title,
+          text: short.description,
+          url: window.location.href, // Current URL
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+        // Fallback to copy to clipboard
+        copyToClipboard();
+      }
+    } else {
+      // Fallback for browsers that don't support Web Share API
+      copyToClipboard();
+    }
+  };
+
+  // Copy URL to clipboard function
+  const copyToClipboard = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      })
+      .catch(err => {
+        console.error("Could not copy text: ", err);
+      });
+  };
 
   return (
     <Card className="p-0 w-[360px] h-[640px] flex flex-col items-center justify-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative">
@@ -32,11 +137,31 @@ const ShortCard: React.FC<ShortCardProps> = ({ short }) => {
           transformation={[{ height: "640", width: "360", format: "mp4" }]}
           controls
           autoPlay={false}
+          muted={false} // Ensure the video is not muted
           className="absolute inset-0 w-full h-full object-cover"
         />
       </ImageKitProvider>
 
-      {/* Channel Information  */}
+      {/* Share Button */}
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button 
+              variant="secondary" 
+              size="icon" 
+              className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white rounded-full p-2"
+              onClick={handleShare}
+            >
+              <Share2 className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{isCopied ? "Copied!" : "Share"}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      {/* Channel Information */}
       <CardFooter className="absolute bottom-20 -left-2 text-white">
         <div>
           <div className="flex items-center space-x-2">
@@ -49,7 +174,7 @@ const ShortCard: React.FC<ShortCardProps> = ({ short }) => {
               <span className="text-sm">{short.user.name}</span>
             </div>
           </div>
-
+          
           <div className="text-sm mt-2">
             <p>{short.description}</p>
           </div>
