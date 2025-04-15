@@ -1,6 +1,7 @@
 import { PrismaClient } from "@/generated/prisma";
 
 
+
 // Use a single instance of PrismaClient across the app
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
