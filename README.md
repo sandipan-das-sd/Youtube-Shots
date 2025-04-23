@@ -1,10 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 YouTube Shorts Viewer (Next.js)
 
-## Getting Started
+This is a **Next.js** project built to explore or showcase **YouTube Shorts-style content**, leveraging the modern features of the Next.js framework.
 
-First, run the development server:
+Bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app), the project is optimized for performance, font loading, and developer experience.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
 
 ```bash
+git clone https://github.com/your-username/youtube-shorts-viewer.git
+cd youtube-shorts-viewer
+2. Install dependencies
+bash
+Copy
+Edit
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+3. Run the development server
+bash
+Copy
+Edit
 npm run dev
 # or
 yarn dev
@@ -12,25 +35,62 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
+Open your browser and visit:
+👉 http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You can start editing the page by modifying:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+bash
+Copy
+Edit
+app/page.tsx
+The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+✨ Features
+Built with Next.js 14+
 
-## Learn More
+Uses the new app/ directory and app router
 
-To learn more about Next.js, take a look at the following resources:
+Optimized font loading using next/font with Geist
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Fast refresh, hot reloading, and modern dev tooling
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deployed on Vercel (Recommended)
 
-## Deploy on Vercel
+📚 Learn More
+Next.js Documentation – Learn about Next.js features and API.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Learn Next.js – Interactive learning experience.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next.js GitHub Repository – Your feedback and contributions are welcome!
+
+☁️ Deployment
+The easiest way to deploy your Next.js app is via Vercel — the creators of Next.js.
+
+Follow the guide here: Next.js Deployment Docs
+
+👨‍💻 Author
+Sandipan Das
+Full Stack Developer | Frontend Engineer | UI/UX Explorer
+🌐 LinkedIn
+🐙 GitHub
+
+📄 License
+MIT License — feel free to use, fork, and contribute!
+
+⭐️ Show Support
+If this project helped you or inspired you, drop a ⭐ on the repo.
+Happy coding!
+
+vbnet
+Copy
+Edit
+
+Let me know if you'd like a version with screenshots, live demo badge, or want to include video integration features like YouTube Data API!
+
+
+
+
+
+
+
