@@ -11,22 +11,27 @@ export default async function Home() {
     return null;
   }
 
-  const loggedInUser = await prisma.user.findUnique({
-    where: { clerkUserId: user.id },
-  });
+  const primaryEmail = user.emailAddresses[0]?.emailAddress;
 
-  if (!loggedInUser) {
-    await prisma.user.create({
-      data: {
-        name: user.fullName || "Name",
-        email: user.emailAddresses[0].emailAddress,
-        clerkUserId: user.id,
-      },
-    });
+  if (!primaryEmail) {
+    return null;
   }
 
+  const loggedInUser = await prisma.user.upsert({
+    where: { clerkUserId: user.id },
+    update: {
+      name: user.fullName || "Name",
+      email: primaryEmail,
+    },
+    create: {
+      name: user.fullName || "Name",
+      email: primaryEmail,
+      clerkUserId: user.id,
+    },
+  });
+
   const shorts = await prisma.shorts.findMany({
-    where: { userId: loggedInUser?.id },
+    where: { userId: loggedInUser.id },
     include: {
       user: {
         select: {
