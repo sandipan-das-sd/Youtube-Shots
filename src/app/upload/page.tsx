@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import React, { useActionState, useState } from 'react'
 import UploadPage from '@/components/upload';
-import { Loader, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 export default function Upload() {
     const [formState, action, isPending] = useActionState(uploadShortAction, { errors: {} })

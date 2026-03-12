@@ -1,6 +1,6 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { ImageKitProvider, IKImage, IKUpload } from "imagekitio-next";
+import React, { useState } from "react";
+import { ImageKitProvider, IKUpload } from "imagekitio-next";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
 import { Progress } from "./ui/progress";
 
@@ -37,9 +37,13 @@ export default function UploadPage({ setVideoUrl }: UploadProps) {
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const onError = (err: any) => {
+  const onError = (err: unknown) => {
     console.log("Error", err);
-    setError(err.message);
+    if (err instanceof Error) {
+      setError(err.message);
+    } else {
+      setError("Upload failed");
+    }
 
     setUploadProgress(null);
   };

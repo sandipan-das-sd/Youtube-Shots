@@ -63,7 +63,6 @@
 
 
 "use client";
-import type { Prisma } from "@prisma/client";
 import React, { useState } from "react";
 import { Card, CardFooter } from "../ui/card";
 import { IKVideo, ImageKitProvider } from "imagekitio-next";
@@ -80,16 +79,15 @@ import {
 const urlEndPoint = process.env.NEXT_PUBLIC_URL_ENDPOINT as string;
 
 type ShortCardProps = {
-  short: Prisma.ShortsGetPayload<{
-    include: {
-      user: {
-        select: {
-          name: true;
-          email: true;
-        };
-      };
+  short: {
+    title: string;
+    description: string;
+    url: string;
+    user: {
+      name: string;
+      email: string;
     };
-  }>;
+  };
 };
 
 const ShortCard: React.FC<ShortCardProps> = ({ short }) => {
